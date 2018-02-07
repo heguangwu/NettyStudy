@@ -13,10 +13,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Date: Create in 2018/02/06
  * Modified By:
  */
-public class ChannelTestServer {
+public class Server {
     private int port;
 
-    public ChannelTestServer(int port) {
+    public Server(int port) {
         this.port = port;
     }
 
@@ -39,7 +39,7 @@ public class ChannelTestServer {
                 });
         try {
             ChannelFuture f = bootstrap.bind(port).sync();
-            System.out.println("EchoServer start and listen on port " + port);
+            System.out.println("Server start and listen on port " + port);
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -47,6 +47,6 @@ public class ChannelTestServer {
     }
 
     public static void main(String[] args) {
-        new ChannelTestServer(12345).start();
+        new Server(12345).start();
     }
 }

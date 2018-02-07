@@ -1,4 +1,4 @@
-package study.netty.channel;
+package study.netty.codec;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -7,7 +7,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-
 import java.net.InetSocketAddress;
 
 /**
@@ -16,11 +15,11 @@ import java.net.InetSocketAddress;
  * Date: Create in 2018/02/06
  * Modified By:
  */
-public class ChannelTestClient {
+public class Client {
     private final String host;
     private final int port;
 
-    public ChannelTestClient(String host, int port) {
+    public Client(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -32,13 +31,15 @@ public class ChannelTestClient {
                 .remoteAddress(new InetSocketAddress(host, port))
                 .handler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new UserMessageDecoder())
+                                .addLast(new UserMessageEncoder())
+                                .addLast(new ClientHandler());
                     }
                 });
 
         try {
             ChannelFuture f = b.connect().sync();
-            System.out.println("EchoClient connect ......");
+            System.out.println("Client connect ......");
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -50,7 +51,7 @@ public class ChannelTestClient {
 
     public static void main(String[] args)  {
         try {
-            new ChannelTestClient("localhost", 12345).start();
+            new Client("localhost", 12345).start();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
