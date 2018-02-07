@@ -13,7 +13,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class ServerPlusEncoder extends MessageToByteEncoder<String> {
 
     protected void encode(ChannelHandlerContext ctx, String msg, ByteBuf out) throws Exception {
-        System.out.println("EchoServerEncoder");
+        System.out.println("ServerPlusEncoder");
         String o = msg + " ++++++ ";
         byte[] b = o.getBytes();
         out.writeBytes(b);

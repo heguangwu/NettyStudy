@@ -14,7 +14,7 @@ import java.util.List;
 public class ServerStarEncoder extends MessageToMessageEncoder<String> {
 
     protected void encode(ChannelHandlerContext ctx, String msg, List<Object> out) throws Exception {
-        System.out.println("EchoServerEncoder2222");
+        System.out.println("ServerStarEncoder");
         String o = msg + " ****** ";
         out.add(o);
     }
