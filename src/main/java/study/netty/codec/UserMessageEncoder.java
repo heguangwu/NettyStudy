@@ -14,7 +14,7 @@ public class UserMessageEncoder extends MessageToByteEncoder<UserMessage> {
     public static final int NAME_LEN_SIZE = 1;
     public static final int ID_LEN_SIZE = 4;
     public static final int PHONE_LEN_SIZE = 1;
-    public static final int AGE_LEN_SIZE = 1;
+    public static final int AGE_LEN_SIZE = 2;
 
     /** 将UserMessage消息编码到ByteBuf
      * 编码格式如下：

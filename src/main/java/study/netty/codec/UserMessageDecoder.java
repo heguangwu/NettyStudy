@@ -2,9 +2,7 @@ package study.netty.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.ByteToMessageDecoder;
-
-import java.util.List;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 /**
  * Author: HeGuangwu (heguangwu@163.com)
@@ -12,28 +10,33 @@ import java.util.List;
  * Date: Create in 2018/02/07
  * Modified By:
  */
-public class UserMessageDecoder extends ByteToMessageDecoder {
+public class UserMessageDecoder extends LengthFieldBasedFrameDecoder {
     public static final int HEADER_SIZE = 4;
+    public UserMessageDecoder() {
+        super(1024*1024, 0, 4);
+    }
 
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if(in.readableBytes() < HEADER_SIZE) {
+    @Override
+    protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        ByteBuf obj = (ByteBuf) super.decode(ctx, in);
+        if(obj.readableBytes() < HEADER_SIZE) {
             System.out.println("not enough head length");
         }
-        int len = in.readInt();
+        int len = obj.readInt();
         System.out.println("decode length: " + len);
         UserMessage msg = new UserMessage();
-        int nameLen = in.readByte();
+        int nameLen = obj.readByte();
         System.out.println("name length: " + nameLen);
         byte[] name = new byte[nameLen];
-        in.readBytes(name);
+        obj.readBytes(name);
         msg.setName(new String(name));
-        msg.setId(in.readInt());
-        int phoneLen = in.readByte();
+        msg.setId(obj.readInt());
+        int phoneLen = obj.readByte();
         System.out.println("phone length: " + phoneLen);
         byte[] phone = new byte[phoneLen];
-        in.readBytes(phone);
+        obj.readBytes(phone);
         msg.setPhone(new String(phone));
-        msg.setAge(in.readShort());
-        out.add(msg);
+        msg.setAge(obj.readShort());
+        return msg;
     }
 }
