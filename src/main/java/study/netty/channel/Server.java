@@ -21,6 +21,7 @@ public class Server {
     }
 
     public void start() {
+        final ServerFirstHandler handler = new ServerFirstHandler();
         NioEventLoopGroup workers = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(workers).channel(NioServerSocketChannel.class).
@@ -32,7 +33,7 @@ public class Server {
                          * 如果OutboundHandler是调用ChannelHandlerContext发送，则取下一个（逆序）的OutboundHandler
                          */
                         ch.pipeline().addLast(new ServerPlusEncoder())
-                                .addLast(new ServerFirstHandler())
+                                .addLast(handler)
                                 .addLast(new ServerLastHandler())
                                 .addLast(new ServerStarEncoder());
                     }

@@ -3,6 +3,7 @@ package study.netty.channel;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
@@ -13,6 +14,7 @@ import io.netty.util.CharsetUtil;
  * Date: Create in 2018/02/06
  * Modified By:
  */
+@ChannelHandler.Sharable
 public class ServerFirstHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
