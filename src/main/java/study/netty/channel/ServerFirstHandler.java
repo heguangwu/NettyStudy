@@ -21,6 +21,7 @@ public class ServerFirstHandler extends ChannelInboundHandlerAdapter {
         System.out.println("Server recv: " + str);
         String sub = str.substring(str.indexOf(' '));
         ctx.fireChannelRead(sub);
+        in.release();
     }
 
     @Override
